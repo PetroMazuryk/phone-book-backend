@@ -34,7 +34,6 @@ export const addContact = async (name, email, phone) => {
   const newContact = {
     id: nanoid(),
     name,
-    email,
     phone,
   };
   getAllContacts.push(newContact);
