@@ -35,12 +35,18 @@ const deleteContact = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-  const { name, email, phone } = req.body;
-  const result = await addContact(name, email, phone);
+  const { name, phone, favorite = false } = req.body;
+
+  if (!name || !phone) {
+    throw HttpError(400, "Name and phone are required");
+  }
+
+  const result = await addContact(name, phone, favorite);
 
   if (!result) {
-    throw HttpError(201, "Not found");
+    throw HttpError(500, "Failed to create contact");
   }
+
   res.status(201).json(result);
 };
 
