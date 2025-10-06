@@ -29,12 +29,13 @@ export const removeContact = async (contactId) => {
   return result;
 };
 
-export const addContact = async (name, email, phone) => {
+export const addContact = async (name, phone, favorite = false) => {
   const getAllContacts = await listContacts();
   const newContact = {
     id: nanoid(),
     name,
     phone,
+    favorite,
   };
   getAllContacts.push(newContact);
   await updateListContacts(getAllContacts);
@@ -48,6 +49,18 @@ export const updateContactById = async (id, body) => {
     return null;
   }
   contacts[index] = { id, ...body };
+  await updateListContacts(contacts);
+  return contacts[index];
+};
+
+export const updateFavoriteById = async (id, favorite) => {
+  const contacts = await listContacts();
+  const index = contacts.findIndex((item) => item.id === id);
+  if (index === -1) {
+    return null;
+  }
+
+  contacts[index].favorite = favorite;
   await updateListContacts(contacts);
   return contacts[index];
 };
