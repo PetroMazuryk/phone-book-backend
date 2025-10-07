@@ -65,14 +65,14 @@ export const updateFavoriteById = async (id, favorite) => {
   return contacts[index];
 };
 
-export const updatePriorityById = async (id, favorite) => {
+export const updatePriorityById = async (id, priority) => {
   const contacts = await listContacts();
   const index = contacts.findIndex((item) => item.id === id);
   if (index === -1) {
     return null;
   }
 
-  contacts[index].favorite = favorite;
+  contacts[index].priority = priority;
   await updateListContacts(contacts);
   return contacts[index];
 };

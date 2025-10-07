@@ -76,13 +76,13 @@ const updateFavorite = async (req, res) => {
 
 const updatePriority = async (req, res) => {
   const { id } = req.params;
-  const { favorite } = req.body;
+  const { priority } = req.body;
 
-  if (typeof favorite !== "boolean") {
-    throw HttpError(400, "Field 'favorite' must be boolean");
+  if (typeof priority !== "boolean") {
+    throw HttpError(400, "Field 'priority' must be boolean");
   }
 
-  const result = await updatePriorityById(id, favorite);
+  const result = await updatePriorityById(id, priority);
   if (!result) {
     throw HttpError(404, "Not found");
   }
