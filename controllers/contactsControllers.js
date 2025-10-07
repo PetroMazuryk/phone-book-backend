@@ -5,6 +5,7 @@ import {
   addContact,
   updateContactById,
   updateFavoriteById,
+  updatePriorityById,
 } from "../services/contactsServices.js";
 
 import HttpError from "../helpers/HttpError.js";
@@ -37,7 +38,6 @@ const deleteContact = async (req, res) => {
 
 const createContact = async (req, res) => {
   const { name, phone, favorite = false } = req.body;
-  console.log("BODY:", req.body);
 
   if (!name || !phone) {
     throw HttpError(400, "Name and phone are required");
@@ -59,7 +59,6 @@ const updateContact = async (req, res) => {
 };
 
 const updateFavorite = async (req, res) => {
-  console.log("BODY:", req.body);
   const { id } = req.params;
   const { favorite } = req.body;
 
@@ -75,6 +74,22 @@ const updateFavorite = async (req, res) => {
   res.json(result);
 };
 
+const updatePriority = async (req, res) => {
+  const { id } = req.params;
+  const { favorite } = req.body;
+
+  if (typeof favorite !== "boolean") {
+    throw HttpError(400, "Field 'favorite' must be boolean");
+  }
+
+  const result = await updatePriorityById(id, favorite);
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+
+  res.json(result);
+};
+
 export default {
   getAllContacts: ctrlWrapper(getAllContacts),
   getOneContact: ctrlWrapper(getOneContact),
@@ -82,4 +97,5 @@ export default {
   createContact: ctrlWrapper(createContact),
   updateContact: ctrlWrapper(updateContact),
   updateFavorite: ctrlWrapper(updateFavorite),
+  updatePriority: ctrlWrapper(updatePriority),
 };
