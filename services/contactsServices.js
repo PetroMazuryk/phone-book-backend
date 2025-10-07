@@ -64,3 +64,15 @@ export const updateFavoriteById = async (id, favorite) => {
   await updateListContacts(contacts);
   return contacts[index];
 };
+
+export const updatePriorityById = async (id, favorite) => {
+  const contacts = await listContacts();
+  const index = contacts.findIndex((item) => item.id === id);
+  if (index === -1) {
+    return null;
+  }
+
+  contacts[index].favorite = favorite;
+  await updateListContacts(contacts);
+  return contacts[index];
+};
