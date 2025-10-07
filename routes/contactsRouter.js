@@ -6,6 +6,7 @@ import {
   createContactSchema,
   updateContactSchema,
   updateFavoriteSchema,
+  updatePrioritySchema,
 } from "../schemas/contactsSchemas.js";
 
 const contactsRouter = express.Router();
@@ -28,6 +29,12 @@ contactsRouter.patch(
   "/:id/favorite",
   validateBody(updateFavoriteSchema),
   ctrl.updateFavorite
+);
+
+contactsRouter.patch(
+  "/:id/priority",
+  validateBody(updatePrioritySchema),
+  ctrl.updatePriority
 );
 
 export default contactsRouter;
