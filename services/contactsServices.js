@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 
 const contactsPath = path.join("db", "contacts.json");
 
-const updateListContacts = async (contacts) =>
+export const updateListContacts = async (contacts) =>
   fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
 export const listContacts = async () => {
