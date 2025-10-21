@@ -17,6 +17,23 @@ export const deleteCall = async (req, res) => {
   });
 };
 
+export const addCall = async (req, res) => {
+  const { contactId } = req.params;
+  const newCallData = req.body;
+
+  const result = await addCallService(contactId, newCallData);
+
+  if (!result) {
+    throw HttpError(404, "Contact not found or call not added");
+  }
+
+  res.status(201).json({
+    result,
+    message: "Call added successfully",
+  });
+};
+
 export default {
   deleteCall: ctrlWrapper(deleteCall),
+  addCall: ctrlWrapper(addCall),
 };
