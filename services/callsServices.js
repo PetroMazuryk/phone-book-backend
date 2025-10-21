@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { listContacts, updateListContacts } from "./contactsServices.js";
 
 export const removeCall = async (contactId, callId) => {
@@ -13,4 +14,23 @@ export const removeCall = async (contactId, callId) => {
   await updateListContacts(contacts);
 
   return removedCall;
+};
+
+export const addCall = async (contactId, newCall) => {
+  const contacts = await listContacts();
+
+  const contact = contacts.find((c) => c.id === contactId);
+  if (!contact) return null;
+
+  const callWithId = {
+    id: nanoid(),
+    ...newCall,
+  };
+
+  if (!contact.calls) contact.calls = [];
+  contact.calls.push(callWithId);
+
+  await updateListContacts(contacts);
+
+  return callWithId;
 };
