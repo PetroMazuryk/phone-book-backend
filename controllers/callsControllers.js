@@ -23,7 +23,6 @@ export const addCall = async (req, res) => {
   const newCallData = req.body;
 
   const result = await addCallService(contactId, newCallData);
-  console.log(result);
 
   if (!result) {
     throw HttpError(404, "Contact not found or call not added");
@@ -35,7 +34,24 @@ export const addCall = async (req, res) => {
   });
 };
 
+export const editCall = async (req, res) => {
+  const { contactId, callId } = req.params;
+  const updatedFields = req.body;
+
+  const result = await editCallService(contactId, callId, updatedFields);
+
+  if (!result) {
+    throw HttpError(404, "Call not found or not updated");
+  }
+
+  res.status(200).json({
+    result,
+    message: "Call updated successfully",
+  });
+};
+
 export default {
   deleteCall: ctrlWrapper(deleteCall),
   addCall: ctrlWrapper(addCall),
+  editCall: ctrlWrapper(editCall),
 };
