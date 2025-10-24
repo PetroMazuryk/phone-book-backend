@@ -1,4 +1,5 @@
-import { removeCall } from "../services/callsServices.js";
+import { removeCall, addCallService } from "../services/callsServices.js";
+
 import HttpError from "../helpers/HttpError.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
@@ -22,6 +23,7 @@ export const addCall = async (req, res) => {
   const newCallData = req.body;
 
   const result = await addCallService(contactId, newCallData);
+  console.log(result);
 
   if (!result) {
     throw HttpError(404, "Contact not found or call not added");

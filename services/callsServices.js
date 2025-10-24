@@ -16,21 +16,35 @@ export const removeCall = async (contactId, callId) => {
   return removedCall;
 };
 
-export const addCall = async (contactId, newCall) => {
+export const addCallService = async (contactId, newCall) => {
   const contacts = await listContacts();
-
   const contact = contacts.find((c) => c.id === contactId);
   if (!contact) return null;
 
-  const callWithId = {
-    id: nanoid(),
-    ...newCall,
-  };
-
+  const callWithId = { id: nanoid(), ...newCall };
   if (!contact.calls) contact.calls = [];
   contact.calls.push(callWithId);
 
   await updateListContacts(contacts);
-
   return callWithId;
+};
+
+export const editCallService = async (contactId, callId, updatedFields) => {
+  const contacts = await listContacts();
+  const contact = contacts.find((c) => c.id === contactId);
+  if (!contact) return null;
+
+  if (!contact.calls) return null;
+
+  const callIndex = contact.calls.findIndex((c) => c.id === callId);
+  if (callIndex === -1) return null;
+
+  contact.calls[callIndex] = {
+    ...contact.calls[callIndex],
+    ...updatedFields,
+  };
+
+  await updateListContacts(contacts);
+
+  return contact.calls[callIndex];
 };
