@@ -1,4 +1,4 @@
-import { createUser } from "../services/authService.js";
+import { createUser } from "../services/usersServices.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
 export const registerUser = async (req, res) => {

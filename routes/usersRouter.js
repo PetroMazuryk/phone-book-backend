@@ -6,4 +6,4 @@ const usersRouter = express.Router();
 
 usersRouter.post("/register", ctrl.registerUser);
 
-export default router;
+export default usersRouter;
