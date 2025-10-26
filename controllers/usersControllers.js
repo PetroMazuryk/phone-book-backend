@@ -1,4 +1,5 @@
 import { createUser } from "../services/authService.js";
+import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -18,4 +19,8 @@ export const registerUser = async (req, res) => {
       createdAt: newUser.createdAt,
     },
   });
+};
+
+export default {
+  registerUser: ctrlWrapper(registerUser),
 };
