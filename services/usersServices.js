@@ -20,3 +20,8 @@ export const createUser = ({ email, password }) => {
   writeUsers(users);
   return newUser;
 };
+
+export const findUserByEmail = (email) => {
+  const users = readUsers();
+  return users.find((user) => user.email === email);
+};
