@@ -2,19 +2,26 @@ import { createUser, findUserByEmail } from "../services/usersServices.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
 export const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!email || !password) {
-    res.status(400).json({ message: "Email and password are required." });
+  if (!name || !email || !password) {
+    res.status(400).json({ message: "Name, email and password are required." });
     return;
   }
 
-  const newUser = createUser({ email, password });
+  const existingUser = findUserByEmail(email);
+  if (existingUser) {
+    res.status(409).json({ message: "User with this email already exists." });
+    return;
+  }
+
+  const newUser = createUser({ name, email, password });
 
   res.status(201).json({
     message: "User created successfully",
     user: {
       id: newUser.id,
+      name: newUser.name,
       email: newUser.email,
       createdAt: newUser.createdAt,
     },
@@ -40,6 +47,7 @@ export const loginUser = async (req, res) => {
     message: "Login successful",
     user: {
       id: user.id,
+      name: user.name,
       email: user.email,
     },
   });

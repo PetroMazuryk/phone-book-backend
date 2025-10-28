@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { nanoid } from "nanoid";
 
 const usersFile = path.join(process.cwd(), "db", "users.json");
 
@@ -13,9 +14,15 @@ const writeUsers = (users) => {
   fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
 };
 
-export const createUser = ({ email, password }) => {
+export const createUser = ({ name, email, password }) => {
   const users = readUsers();
-  const newUser = { id: nanoid(), email, password, createdAt: new Date() };
+  const newUser = {
+    id: nanoid(),
+    name,
+    email,
+    password,
+    createdAt: new Date(),
+  };
   users.push(newUser);
   writeUsers(users);
   return newUser;
