@@ -32,3 +32,8 @@ export const findUserByEmail = (email) => {
   const users = readUsers();
   return users.find((user) => user.email === email);
 };
+
+export const findUserById = (id) => {
+  const users = readUsers();
+  return users.find((user) => user.id === id);
+};
