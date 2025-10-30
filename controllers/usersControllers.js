@@ -53,7 +53,31 @@ export const loginUser = async (req, res) => {
   });
 };
 
+export const getCurrentUser = async (req, res) => {
+  const { userId } = req;
+
+  if (!userId) {
+    res.status(401).json({ message: "Not authorized" });
+    return;
+  }
+
+  const user = findUserById(userId);
+
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+    return;
+  }
+
+  res.status(200).json({
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    createdAt: user.createdAt,
+  });
+};
+
 export default {
   registerUser: ctrlWrapper(registerUser),
   loginUser: ctrlWrapper(loginUser),
+  getCurrentUser: ctrlWrapper(getCurrentUser),
 };
