@@ -1,5 +1,8 @@
+import jwt from "jsonwebtoken";
 import { createUser, findUserByEmail } from "../services/usersServices.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
+
+const SECRET_KEY = process.env;
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -31,25 +34,16 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    res.status(400).json({ message: "Email and password are required." });
-    return;
-  }
-
   const user = findUserByEmail(email);
-
   if (!user || user.password !== password) {
-    res.status(401).json({ message: "Invalid email or password." });
-    return;
+    return res.status(401).json({ message: "Invalid email or password." });
   }
 
+  const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: "1h" });
   res.status(200).json({
     message: "Login successful",
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    },
+    token,
+    user: { id: user.id, name: user.name, email: user.email },
   });
 };
 
