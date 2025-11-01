@@ -2,6 +2,7 @@ import express from "express";
 
 import ctrl from "../controllers/usersControllers.js";
 import validateBody from "../helpers/validateBody.js";
+import { authenticate } from "../middlewares/authenticate.js";
 import {
   userRegisterSchema,
   userLoginSchema,
@@ -16,6 +17,6 @@ usersRouter.post(
 );
 usersRouter.post("/login", validateBody(userLoginSchema), ctrl.loginUser);
 
-usersRouter.get("/current", ctrl.getCurrentUser);
+usersRouter.get("/current", authenticate, ctrl.getCurrentUser);
 
 export default usersRouter;

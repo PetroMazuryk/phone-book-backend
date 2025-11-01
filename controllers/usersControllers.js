@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { createUser, findUserByEmail } from "../services/usersServices.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
-const SECRET_KEY = process.env;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -47,19 +47,11 @@ export const loginUser = async (req, res) => {
   });
 };
 
-export const getCurrentUser = async (req, res) => {
-  const { userId } = req;
-
-  if (!userId) {
-    res.status(401).json({ message: "Not authorized" });
-    return;
-  }
-
-  const user = findUserById(userId);
+const getCurrentUser = async (req, res) => {
+  const user = req.user;
 
   if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
+    return res.status(401).json({ message: "Not authorized" });
   }
 
   res.status(200).json({

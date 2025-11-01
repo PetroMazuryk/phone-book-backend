@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { findUserById } from "../services/usersServices.js";
 
-const SECRET_KEY = process.env;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 export const authenticate = (req, res, next) => {
   const { authorization = "" } = req.headers;
