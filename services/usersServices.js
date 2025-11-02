@@ -4,13 +4,13 @@ import { nanoid } from "nanoid";
 
 const usersFile = path.join(process.cwd(), "db", "users.json");
 
-const readUsers = () => {
+export const readUsers = () => {
   if (!fs.existsSync(usersFile)) return [];
   const data = fs.readFileSync(usersFile, "utf-8");
   return JSON.parse(data);
 };
 
-const writeUsers = (users) => {
+export const writeUsers = (users) => {
   fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
 };
 

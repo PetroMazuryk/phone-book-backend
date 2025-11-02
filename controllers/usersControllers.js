@@ -1,5 +1,10 @@
 import jwt from "jsonwebtoken";
-import { createUser, findUserByEmail } from "../services/usersServices.js";
+import {
+  createUser,
+  findUserByEmail,
+  readUsers,
+  writeUsers,
+} from "../services/usersServices.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
