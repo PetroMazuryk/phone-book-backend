@@ -40,6 +40,13 @@ export const loginUser = async (req, res) => {
   }
 
   const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: "1h" });
+
+  const users = readUsers();
+  const updatedUsers = users.map((u) =>
+    u.id === user.id ? { ...u, token } : u
+  );
+  writeUsers(updatedUsers);
+
   res.status(200).json({
     message: "Login successful",
     token,
