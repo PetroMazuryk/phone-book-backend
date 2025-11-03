@@ -37,3 +37,11 @@ export const findUserById = (id) => {
   const users = readUsers();
   return users.find((user) => user.id === id);
 };
+
+export const removeUserToken = (userId) => {
+  const users = readUsers();
+  const updatedUsers = users.map((user) =>
+    user.id === userId ? { ...user, token: null } : user
+  );
+  writeUsers(updatedUsers);
+};
