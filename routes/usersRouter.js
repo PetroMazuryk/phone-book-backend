@@ -19,6 +19,6 @@ usersRouter.post("/login", validateBody(userLoginSchema), ctrl.loginUser);
 
 usersRouter.get("/current", authenticate, ctrl.getCurrentUser);
 
-router.get("/current", authenticate, ctrl.getCurrentUser);
+usersRouter.get("/current", authenticate, ctrl.getCurrentUser);
 
 export default usersRouter;
