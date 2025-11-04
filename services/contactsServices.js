@@ -29,13 +29,14 @@ export const removeContact = async (contactId) => {
   return result;
 };
 
-export const addContact = async (name, phone, favorite = false) => {
+export const addContact = async (name, phone, favorite = false, owner) => {
   const getAllContacts = await listContacts();
   const newContact = {
     id: nanoid(),
     name,
     phone,
     favorite,
+    owner,
   };
   getAllContacts.push(newContact);
   await updateListContacts(getAllContacts);

@@ -12,7 +12,10 @@ import HttpError from "../helpers/HttpError.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
 const getAllContacts = async (req, res) => {
-  const result = await listContacts();
+  const userId = req.user.id;
+  const allContacts = await listContacts();
+  const result = allContacts.filter((c) => c.owner === userId);
+
   res.json(result);
 };
 
@@ -43,7 +46,8 @@ const createContact = async (req, res) => {
     throw HttpError(400, "Name and phone are required");
   }
 
-  const result = await addContact(name, phone, favorite);
+  const owner = req.user.id;
+  const result = await addContact(name, phone, favorite, owner);
   res.status(201).json(result);
 };
 
