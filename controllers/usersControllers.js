@@ -74,8 +74,21 @@ const getCurrentUser = async (req, res) => {
   });
 };
 
+export const logoutUser = async (req, res) => {
+  const user = req.user;
+
+  if (!user) {
+    return res.status(401).json({ message: "Not authorized" });
+  }
+
+  removeUserToken(user.id);
+
+  res.status(200).json({ message: "Logout successful" });
+};
+
 export default {
   registerUser: ctrlWrapper(registerUser),
   loginUser: ctrlWrapper(loginUser),
   getCurrentUser: ctrlWrapper(getCurrentUser),
+  logoutUser: ctrlWrapper(logoutUser),
 };
