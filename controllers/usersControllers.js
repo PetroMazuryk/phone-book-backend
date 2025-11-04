@@ -4,6 +4,7 @@ import {
   findUserByEmail,
   readUsers,
   writeUsers,
+  removeUserToken,
 } from "../services/usersServices.js";
 import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 
