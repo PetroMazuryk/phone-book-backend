@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { nanoid } from "nanoid";
 import {
   createUser,
   findUserByEmail,
@@ -14,17 +16,30 @@ export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    res.status(400).json({ message: "Name, email and password are required." });
-    return;
+    return res
+      .status(400)
+      .json({ message: "Name, email and password are required." });
   }
 
   const existingUser = findUserByEmail(email);
   if (existingUser) {
-    res.status(409).json({ message: "User with this email already exists." });
-    return;
+    return res
+      .status(409)
+      .json({ message: "User with this email already exists." });
   }
 
-  const newUser = createUser({ name, email, password });
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const id = nanoid();
+
+  const token = jwt.sign({ id }, SECRET_KEY, { expiresIn: "23h" });
+
+  const newUser = createUser({
+    id,
+    name,
+    email,
+    password: hashedPassword,
+    token,
+  });
 
   res.status(201).json({
     message: "User created successfully",
@@ -34,6 +49,7 @@ export const registerUser = async (req, res) => {
       email: newUser.email,
       createdAt: newUser.createdAt,
     },
+    token,
   });
 };
 
